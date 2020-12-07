@@ -19,6 +19,8 @@ namespace MvcViewModels
         {
             services.AddMvc();
             
+           
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,14 +31,19 @@ namespace MvcViewModels
                 
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseStaticFiles();
+            app.UseHttpsRedirection();
             app.UseRouting();
+
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=People}/{id?}");
+                
+    
 
             });
         }

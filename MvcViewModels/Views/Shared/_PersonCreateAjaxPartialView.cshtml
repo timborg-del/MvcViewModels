@@ -1,0 +1,25 @@
+﻿@model CreatePersonViewModel
+
+
+<h1>Add Person</h1>
+
+<form asp-controller="Home" asp-action="AjaxCreateForm" onsubmit="PostCreatePersonForm(event, this)">
+    
+    <label asp-for="@Model.Name"></label>
+    <input asp-for="@Model.Name" />
+    <span class="text-danger" asp-validation-for="Name"></span>
+    <br />
+    <label asp-for="@Model.PhoneNumber"></label>
+    <input asp-for="@Model.PhoneNumber" />
+    <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+    <br />
+    <label asp-for="@Model.City"></label>
+    <input asp-for="@Model.City" />
+    <span class="text-danger" asp-validation-for="City"></span>
+    <br />
+    <input type="submit" value="Add" />
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/PersonUtil.js" asp-append-version="true"></script>
