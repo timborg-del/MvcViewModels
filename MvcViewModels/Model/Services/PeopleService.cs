@@ -37,7 +37,7 @@ namespace MvcViewModels.Model
         public PeopleViewModel FindBy(PeopleViewModel search)
         {
              //PeopleViewModel
-            //return _peopleRepo.Read();
+             //return _peopleRepo.Read();
             throw new NotImplementedException();
         }
 
@@ -45,7 +45,6 @@ namespace MvcViewModels.Model
         {
             return _peopleRepo.Read(id);
             
-
             //throw new NotImplementedException();
         }
 

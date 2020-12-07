@@ -55,11 +55,7 @@ function GetDeletePersonForm(urlToDelete) {
 }
 function PostDeletePersonForm(event, Delete) {
     event.preventDefault();
-    //console.log("Create Form post:", createForm);
-    event.preventDefault();
 
-    //console.log("action url:", createForm.action);
-    //console.log("form value brand:", createForm.Brand.value);
 
     $.post(Delete.action,
         {
@@ -97,11 +93,8 @@ function GetEditPersonForm(urlToEditForm) {
 
 function PostCreatePersonForm(event, createForm) {
     event.preventDefault();
-    //console.log("Create Form post:", createForm);
-    event.preventDefault();
 
-    //console.log("action url:", createForm.action);
-    //console.log("form value brand:", createForm.Brand.value);
+    event.preventDefault();
 
     $.post(createForm.action,
         {
@@ -113,10 +106,10 @@ function PostCreatePersonForm(event, createForm) {
     
         function (data, status) {
             $("#PersonListDiv").append(data);
-            //$("#createPersonDiv").html(createBtn); //document.getElementById("createCarDiv").innerHTML = createBtn;
+           
 
         }).fail(function (badForm) {
-            //console.log("badForm: ", badForm);
+           
             $("#createPersonDiv").html(badForm.responseText);
         });
 
