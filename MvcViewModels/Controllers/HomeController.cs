@@ -63,8 +63,8 @@ namespace MvcViewModels.Controllers
             PeopleViewModel indexViewModel = new PeopleViewModel();
             indexViewModel = _peopleService.All();
             Person person = new Person();
-
-            return PartialView("_PersonPartialView", person );
+            return Ok();
+            //return PartialView("_PersonPartialView", person );
 
             
              //return RedirectToAction(nameof(People));
@@ -111,6 +111,8 @@ namespace MvcViewModels.Controllers
         {
             CreatePersonViewModel createPerson = new CreatePersonViewModel();
             createPerson.Name = person.Name;
+            createPerson.PhoneNumber = person.PhoneNumber;
+            createPerson.City = person.City;
 
             //Model.IPeopleRepo irepo = new IPeopleRepo();
             Person editPerson = _peopleService.Edit(person.Id, createPerson);

@@ -30,19 +30,26 @@ function GetCreatePersonForm(urlToCreateForm)
 
 
 function GetDeletePersonForm(urlToDelete) {
+
     let personiddelete = urlToDelete.replaceAll("/", "-");
                //"PersonDeleteListDiv2-/Home/Delete/1"
     let theDiv = "#PersonDeleteListDiv2-" + personiddelete;
     console.log(urlToDelete);
     const DeleteBtn = $(theDiv);
+    console.log(DeleteBtn);
 
-   // alert(urlToDelete + "MY ID TO DELETE: " + personiddelete);
+    if (confirm('Are you sure you want To Delete?')) {
+        $.get(urlToDelete, function (result) {
+
+            DeleteBtn.replaceWith(result);
+        })
+        console.log('Thing was saved to the database.');
+    } else {
+        return;
+        console.log('Thing was not saved to the database.');
+    }
     
-    //alert("You really want to Delete?")
-    $.get(urlToDelete, function (result) {
-        console.log(DeleteBtn);
-        DeleteBtn.replaceWith(result);
-    })
+
 
 
 }
@@ -56,13 +63,14 @@ function PostDeletePersonForm(event, Delete) {
 
     $.post(Delete.action,
         {
+            
             Id: Delete.Id.value,
             Name: Delete.Name.value,
             PhoneNumber: Delete.PhoneNumber.value,
             City: Delete.City.value,
         },
         function (data, status) {
-            $("#PersonDeleteListDiv").html(data); //document.getElementById("createCarDiv").innerHTML = createBtn;
+            $("#PersonDeleteListDiv").html(data); 
 
         }).fail(function (badForm) {
             //console.log("badForm: ", badForm);
@@ -72,15 +80,18 @@ function PostDeletePersonForm(event, Delete) {
 }
 
 function GetEditPersonForm(urlToEditForm) {
-    const EditBtn = $("#timsdiv");
+    let personidelete = urlToEditForm.replaceAll("/", "-");
+    let person = personidelete.replaceAll("CreateEditForm", "Delete" );
+    let idOfDiv = "#PersonDeleteListDiv2-" + person;
+    const EditBtn = $(idOfDiv);
     console.log(urlToEditForm);
-    alert("Hello")
+    alert(idOfDiv);
     
 
 
     $.get(urlToEditForm, function (result) {
-        EditBtn.replaceWith(result);
-        alert(result);
+        EditBtn.html(result);
+        console.log("getEditReturn", result)
     })
 }
 
@@ -94,7 +105,7 @@ function PostCreatePersonForm(event, createForm) {
 
     $.post(createForm.action,
         {
-           //Id: createForm.Id.value,
+            Id: createForm.Id.value,
             Name: createForm.Name.value,
             PhoneNumber: createForm.PhoneNumber.value,
             City: createForm.City.value,
@@ -127,10 +138,12 @@ function PostEditPersonForm(event, createForm) {
             City: createForm.City.value,
         },
         function (data, status) {
-            $("#timsdiv").html(data); //document.getElementById("createCarDiv").innerHTML = createBtn;
+            var idOfDiv = "#EditId" + createForm.Id.value;
+            var theDiv = $(idOfDiv);
+            theDiv.html(data);  // this is like replaceAll
 
         }).fail(function (badForm) {
-            //console.log("badForm: ", badForm);
+            console.log("badForm: ", badForm);
             $("#createPersonDiv").html(badForm.responseText);
         });
 
