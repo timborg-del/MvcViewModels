@@ -18,6 +18,10 @@
     <div class="col-12">
 
         <h3>Last Person added</h3>
+        
+        <partial name="_PersonCreateAjaxPartialView" model="new CreatePersonViewModel()" />
+        
+        <div id="PersonListDiv"></div>
         @if (Model.personList.Count != 0)
         {
             for (int i = 0; i < Model.personList.Count; i++)
@@ -28,17 +32,17 @@
                 </div>
                 int IDperson = i + 1;
                 <div id="PersonDeleteListDiv2--Home-Delete-@IDperson">
+                    
                     <partial name="_PersonPartialView" model="newPerson[i]" />
 
 
                 </div>
-
+                
 
 
 
             }
-            <div id="PersonListDiv"></div>
-            <partial name="_PersonCreateAjaxPartialView" model="new CreatePersonViewModel()" />
+
 
 
         }
@@ -46,6 +50,7 @@
         {
             <p>No person has bin added</p>
         }
+
 
     </div>
 

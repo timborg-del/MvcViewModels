@@ -48,32 +48,10 @@ function GetDeletePersonForm(urlToDelete) {
         return;
         console.log('Thing was not saved to the database.');
     }
-    
-
 
 
 }
-function PostDeletePersonForm(event, Delete) {
-    event.preventDefault();
 
-
-    $.post(Delete.action,
-        {
-            
-            Id: Delete.Id.value,
-            Name: Delete.Name.value,
-            PhoneNumber: Delete.PhoneNumber.value,
-            City: Delete.City.value,
-        },
-        function (data, status) {
-            $("#PersonDeleteListDiv").html(data); 
-
-        }).fail(function (badForm) {
-            //console.log("badForm: ", badForm);
-            $("#createPersonDiv").html(badForm.responseText);
-        });
-
-}
 
 function GetEditPersonForm(urlToEditForm) {
     let personidelete = urlToEditForm.replaceAll("/", "-");
@@ -94,11 +72,10 @@ function GetEditPersonForm(urlToEditForm) {
 function PostCreatePersonForm(event, createForm) {
     event.preventDefault();
 
-    event.preventDefault();
 
     $.post(createForm.action,
         {
-            Id: createForm.Id.value,
+            //Id: createForm.Id.value,
             Name: createForm.Name.value,
             PhoneNumber: createForm.PhoneNumber.value,
             City: createForm.City.value,
@@ -106,6 +83,7 @@ function PostCreatePersonForm(event, createForm) {
     
         function (data, status) {
             $("#PersonListDiv").append(data);
+            console.log(data)
            
 
         }).fail(function (badForm) {

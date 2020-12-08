@@ -1,21 +1,22 @@
 ﻿@model Person
+<div id="PersonDeleteListDiv2--Home-Delete-@Model.Id">
+    <div class="row">
+        <div class="col">
+            <p>@Model.Name</p>
+        </div>
+        <div class="col">
+            <p>@Model.City</p>
+        </div>
+        <div class="col">
+            <p>@Model.PhoneNumber</p>
+        </div>
+        <div class="col">
+            <p>@Model.Id</p>
+        </div>
+        <div class="col">
+            <a class="btn btn-danger" onclick="GetDeletePersonForm('@Url.Action("Delete")/@Model.Id')">Delete★</a>
 
-<div class="row">
-    <div class="col">
-        <p>@Model.Name</p>
-    </div>
-    <div class="col">
-        <p>@Model.City</p>
-    </div>
-    <div class="col">
-        <p>@Model.PhoneNumber</p>
-    </div>    
-    <div class="col">
-        <p>@Model.Id</p>
-    </div>
-    <div class="col">
-        <a class="btn btn-danger"  onclick="GetDeletePersonForm('@Url.Action("Delete")/@Model.Id')">Delete★</a>
-   
-        <a class="btn btn-secondary" onclick="GetEditPersonForm('@Url.Action("CreateEditForm")/@Model.Id')">Edit★</a>
+            <a class="btn btn-secondary" onclick="GetEditPersonForm('@Url.Action("CreateEditForm")/@Model.Id')">Edit★</a>
+        </div>
     </div>
 </div>

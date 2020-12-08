@@ -8,7 +8,7 @@ namespace MvcViewModels.Model
     public class InMemoryPeopleRepo : IPeopleRepo
     {
         // –Implements IPeopleRepo interfaceand these two fields.
-        private static List<Person> personList = new List<Person>() { new Person(++idCounter, "Tim", "Ugglanäs", 04949), new Person(++idCounter, "CHarlie", "Ugglanäs", 04949) };
+        private static List<Person> personList = new List<Person>();//{ new Person(++idCounter, "Tim", "Ugglanäs", 04949), new Person(++idCounter, "CHarlie", "Ugglanäs", 04949) };
         private static int idCounter = 0; //Defult value of in is 0
        
 
