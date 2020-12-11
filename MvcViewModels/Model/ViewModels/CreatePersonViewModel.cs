@@ -20,8 +20,8 @@ namespace MvcViewModels.Model
         public string City { get; set; }
 
         [Display(Name ="Phone Number")]
-        [Range(0, 10000000000, ErrorMessage = "Please put in right numbers For Phone Number")]
-        public int PhoneNumber { get; set; }
+        [StringLength(15, ErrorMessage = "Please put in right numbers For Phone Number")]
+        public string PhoneNumber { get; set; }
 
 
         //Use to prevent overposting and to use data  annotations to validate inputs when creating new person

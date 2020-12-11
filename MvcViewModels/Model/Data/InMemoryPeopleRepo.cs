@@ -12,7 +12,7 @@ namespace MvcViewModels.Model
         private static int idCounter = 0; //Defult value of in is 0
        
 
-        public Person Create(string name, string city, int phoneNumber)
+        public Person Create(string name, string city, string phoneNumber)
         {
             Person person = new Person(++idCounter, name, city, phoneNumber);
 

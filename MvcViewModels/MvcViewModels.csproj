@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Persons\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

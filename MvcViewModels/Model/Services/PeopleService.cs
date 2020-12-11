@@ -29,7 +29,7 @@ namespace MvcViewModels.Model
 
         public Person Edit(int id, CreatePersonViewModel person)
         {
-             Person editPerson = new Person() {Id = id, Name = person.Name, City = person.City, PhoneNumber= person.PhoneNumber };
+            Person editPerson = new Person() {Id = id, Name = person.Name, City = person.City, PhoneNumber= person.PhoneNumber };
              return _peopleRepo.Update(editPerson);
             throw new NotImplementedException();
         }
