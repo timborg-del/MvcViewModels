@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MvcViewModels.Model
 {
-    interface IPeopleRepo
+    public interface IPeopleRepo
     {
 
         //–Interface with following methods.

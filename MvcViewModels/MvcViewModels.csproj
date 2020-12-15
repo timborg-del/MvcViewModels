@@ -5,13 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-    <PackageReference Include="Twilio" Version="5.50.0" />
+    <Compile Remove="Views\Persons\**" />
+    <Compile Remove="wwwroot\img\**" />
+    <Content Remove="Views\Persons\**" />
+    <Content Remove="wwwroot\img\**" />
+    <EmbeddedResource Remove="Views\Persons\**" />
+    <EmbeddedResource Remove="wwwroot\img\**" />
+    <None Remove="Views\Persons\**" />
+    <None Remove="wwwroot\img\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Persons\" />
-    <Folder Include="wwwroot\img\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Twilio" Version="5.50.0" />
   </ItemGroup>
 
 </Project>

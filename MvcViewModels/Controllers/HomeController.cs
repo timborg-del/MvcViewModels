@@ -10,7 +10,11 @@ namespace MvcViewModels.Controllers
     public class HomeController : Controller
     {
         //onely peopleService. in feild
-         PeopleService _peopleService = new PeopleService();
+        private readonly IPeopleService _peopleService;
+        public HomeController(IPeopleService peopleService)
+        {
+            _peopleService = peopleService;
+        }
 
         //private static List<Person> personList = new List<Person>();
       

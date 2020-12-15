@@ -8,7 +8,12 @@ namespace MvcViewModels.Model
     public class PeopleService : IPeopleService
     {
         //–Implements IPeopleService interface
-        IPeopleRepo _peopleRepo = new InMemoryPeopleRepo();
+       private readonly IPeopleRepo _peopleRepo;
+        
+        public PeopleService(IPeopleRepo peopleRepo)
+        {
+            _peopleRepo = peopleRepo;     
+        }
         public Person Add(CreatePersonViewModel createPersonViewModel)
         {
 
@@ -63,4 +68,5 @@ namespace MvcViewModels.Model
 
         }
     }
+
 }

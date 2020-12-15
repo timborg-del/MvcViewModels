@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MvcViewModels.Model
 {
-    interface IPeopleService
+    public interface IPeopleService
     {
         //Interface with following methods.
         Person Add(CreatePersonViewModel createPersonViewModel);
