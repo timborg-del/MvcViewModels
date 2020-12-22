@@ -8,7 +8,7 @@ using MvcViewModels.Model.Data.Database;
 
 namespace MvcViewModels.Migrations
 {
-    [DbContext(typeof(PeopleDbContext))]
+    [DbContext(typeof(RegistryDbContext))]
     [Migration("20201215091226_InitialCreate")]
     partial class InitialCreate
     {

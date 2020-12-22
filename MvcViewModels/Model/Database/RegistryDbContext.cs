@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace MvcViewModels.Model.Data.Database
 {
-    public class PeopleDbContext : DbContext
+    public class RegistryDbContext : DbContext
     {
         //ctor
-        public PeopleDbContext(DbContextOptions<PeopleDbContext> options) : base(options)
+        public RegistryDbContext(DbContextOptions<RegistryDbContext> options) : base(options)
         {
 
         }
 
         public DbSet<Person> PeopleList { get; set; }
+
+        public DbSet<Country> CountrieList { get; set; }
+
+        public DbSet<City> CityList { get; set; }
     }
 }

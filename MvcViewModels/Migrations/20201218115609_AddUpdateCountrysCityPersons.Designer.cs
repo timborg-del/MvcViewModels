@@ -3,56 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcViewModels.Model.Data.Database;
 
 namespace MvcViewModels.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    partial class PeopleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201218115609_AddUpdateCountrysCityPersons")]
+    partial class AddUpdateCountrysCityPersons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("MvcViewModels.Model.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("CityList");
-                });
-
-            modelBuilder.Entity("MvcViewModels.Model.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountrieList");
-                });
 
             modelBuilder.Entity("MvcViewModels.Model.Person", b =>
                 {
@@ -77,18 +44,53 @@ namespace MvcViewModels.Migrations
                     b.ToTable("PeopleList");
                 });
 
-            modelBuilder.Entity("MvcViewModels.Model.City", b =>
+            modelBuilder.Entity("MvcViewModels.Model.ViewModels.City", b =>
                 {
-                    b.HasOne("MvcViewModels.Model.Country", "Country")
-                        .WithMany("Cities")
-                        .HasForeignKey("CountryId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("MvcViewModels.Model.ViewModels.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("MvcViewModels.Model.Person", b =>
                 {
-                    b.HasOne("MvcViewModels.Model.City", "City")
-                        .WithMany("Citiezens")
+                    b.HasOne("MvcViewModels.Model.ViewModels.City", "City")
+                        .WithMany()
                         .HasForeignKey("CityId");
+                });
+
+            modelBuilder.Entity("MvcViewModels.Model.ViewModels.City", b =>
+                {
+                    b.HasOne("MvcViewModels.Model.ViewModels.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Data;
 using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Services;
 
 namespace MvcViewModels
 {
@@ -27,15 +28,17 @@ namespace MvcViewModels
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PeopleDbContext>(options =>
+            services.AddDbContext<RegistryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
             //services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
             services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
             services.AddScoped<IPeopleService, PeopleService>();
-
-
+            services.AddScoped<ICitysRepo, DatabaseCitiesRepo>();
+            services.AddScoped<ICitysService, CitysService>();
+            services.AddScoped<ICountrysRepo, DatabaseCountrysRepo>();
+            services.AddScoped<ICountryService, CountrysService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
