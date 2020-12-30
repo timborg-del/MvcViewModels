@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcViewModels.Model.Data.Database;
 
 namespace MvcViewModels.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    partial class PeopleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201223144735_AddedCountrysToPersonCreate")]
+    partial class AddedCountrysToPersonCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace MvcViewModels.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CountriesId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -34,7 +36,7 @@ namespace MvcViewModels.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CountriesId");
+                    b.HasIndex("CountryId");
 
                     b.ToTable("CityList");
                 });
@@ -84,9 +86,9 @@ namespace MvcViewModels.Migrations
 
             modelBuilder.Entity("MvcViewModels.Model.City", b =>
                 {
-                    b.HasOne("MvcViewModels.Model.Country", "Countries")
+                    b.HasOne("MvcViewModels.Model.Country", "Country")
                         .WithMany("Cities")
-                        .HasForeignKey("CountriesId");
+                        .HasForeignKey("CountryId");
                 });
 
             modelBuilder.Entity("MvcViewModels.Model.Person", b =>

@@ -17,7 +17,7 @@ namespace MvcViewModels.Model
         public Person Add(CreatePersonViewModel createPersonViewModel)
         {
 
-            return _peopleRepo.Create(createPersonViewModel.Name, createPersonViewModel.City, createPersonViewModel.PhoneNumber);
+            return _peopleRepo.Create(createPersonViewModel.Name, createPersonViewModel.City, createPersonViewModel.Country, createPersonViewModel.PhoneNumber);
 
         }
 
@@ -34,7 +34,7 @@ namespace MvcViewModels.Model
 
         public Person Edit(int id, CreatePersonViewModel person)
         {
-            Person editPerson = new Person() {Id = id, Name = person.Name, City = person.City, PhoneNumber= person.PhoneNumber };
+            Person editPerson = new Person() {Id = id, Name = person.Name, City = person.City, Country = person.Country, PhoneNumber= person.PhoneNumber };
              return _peopleRepo.Update(editPerson);
             throw new NotImplementedException();
         }

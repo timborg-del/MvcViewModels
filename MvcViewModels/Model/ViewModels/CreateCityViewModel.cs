@@ -8,9 +8,14 @@ namespace MvcViewModels.Model
 {
     public class CreateCityViewModel
     {
-        public List<Country> CountryList { get; set; }
+      
+        public List<Country> Countries { get; set; }
         [Required]
         [Display(Name = "City Name")]
         public string Name { get; set; }
+
+        [Display(Name = "Countries")]
+        [Required]
+        public Country Country { get; set; }
     }
 }

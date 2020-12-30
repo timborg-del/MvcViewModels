@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace MvcViewModels.Model.Data
-{ 
+{
     public class DatabasePeopleRepo : IPeopleRepo
     {
         private readonly RegistryDbContext _peopleDbContext;
@@ -14,9 +14,9 @@ namespace MvcViewModels.Model.Data
         {
             _peopleDbContext = peopleDbContext;
         }
-        public Person Create(string name, City city, string phoneNumber)
+        public Person Create(string name, City city, Country country, string phoneNumber)
         {
-            Person person = new Person(name, city, phoneNumber);
+            Person person = new Person(name, city, country, phoneNumber);
 
             _peopleDbContext.PeopleList.Add(person);
             _peopleDbContext.SaveChanges();
@@ -25,28 +25,55 @@ namespace MvcViewModels.Model.Data
 
         public bool Delete(Person person)
         {
-            
+
+
             _peopleDbContext.PeopleList.Remove(person);
-            _peopleDbContext.SaveChanges();
-            throw new NotImplementedException();
+            int rowsEffected = _peopleDbContext.SaveChanges();
+
+            if (rowsEffected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            // throw new NotImplementedException();
 
 
         }
 
+
         public List<Person> Read()
         {
-           return _peopleDbContext.PeopleList.ToList();
-            
+            return _peopleDbContext.PeopleList.ToList();
+
         }
         public Person Read(int id)
         {
             return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == id);
-            
+
         }
 
         public Person Update(Person person)
         {
-            throw new NotImplementedException();
+            Person updatePerson = Read(person.Id);
+
+            if (updatePerson == null)
+            {
+                return null;
+            }
+
+            updatePerson.Id = person.Id;
+            updatePerson.Name = person.Name;
+            updatePerson.City = person.City;
+            updatePerson.PhoneNumber = person.PhoneNumber;
+            
+            _peopleDbContext.SaveChanges();
+
+            return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == person.Id);
+
         }
     }
 }

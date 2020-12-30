@@ -10,7 +10,7 @@ namespace MvcViewModels.Model
     {
      
         //–Interface with following methods.
-        Person Create(string name, City city, string phoneNumber);
+        Person Create(string name, City city, Country country, string phoneNumber);
         List<Person> Read();
         Person Read(int id);
         Person Update(Person person);

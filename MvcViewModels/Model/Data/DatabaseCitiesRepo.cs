@@ -14,9 +14,9 @@ namespace MvcViewModels.Model.Data
         {
             _citieDbContext = citieDbContext;
         }
-        public City Create(string name)
+        public City Create(string name, Country country)
         {
-            City city = new City(name);
+            City city = new City(name, country);
 
             _citieDbContext.CityList.Add(city);
             _citieDbContext.SaveChanges();
@@ -28,26 +28,48 @@ namespace MvcViewModels.Model.Data
         public bool Delete(City city)
         {
             _citieDbContext.CityList.Remove(city);
-            _citieDbContext.SaveChanges();
-            throw new NotImplementedException();
+          int rowsEffected =  _citieDbContext.SaveChanges();
+            if (rowsEffected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+         
         }
 
         public List<City> Read()
         {
             return _citieDbContext.CityList.ToList();
-            throw new NotImplementedException();
+           
         }
 
         public City Read(int id)
         {
             return _citieDbContext.CityList.SingleOrDefault(CityList => CityList.Id == id);
 
-            throw new NotImplementedException();
+            
         }
 
         public City Update(City city)
         {
-            throw new NotImplementedException();
+            City updateCity = Read(city.Id);
+
+            if (updateCity == null)
+            {
+                return null;
+            }
+
+            updateCity.Id = city.Id;
+            updateCity.Name = city.Name;
+            updateCity.Countries = city.Countries;
+
+            _citieDbContext.SaveChanges();
+            return _citieDbContext.CityList.SingleOrDefault(cityList => cityList.Id == city.Id);
+
+            
         }
     }
 }

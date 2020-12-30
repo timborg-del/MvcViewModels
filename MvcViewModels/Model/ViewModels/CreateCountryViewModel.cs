@@ -8,9 +8,11 @@ namespace MvcViewModels.Model
 {
     public class CreateCountryViewModel
     {
-        public List<Person> People { get; set; }
-        [Display(Name = "Country Name")]
+        public List<Country> CountryList { get; set; }
+        public List<City> Cities { get; set; }
+        [Display(Name = "Country")]
         [Required]
+       
         
         public string Name { get; set; }
 

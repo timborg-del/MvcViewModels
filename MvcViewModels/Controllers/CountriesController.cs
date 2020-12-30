@@ -15,19 +15,21 @@ namespace MvcViewModels.Controllers
 
         private readonly ICountryService _countrysService;
         private readonly ICitysService _citysService;
-        
+        private readonly IPeopleService _peopleService;
 
 
-        public CountriesController(ICitysService citysService, ICountryService countrysService)
+
+        public CountriesController(ICitysService citysService, ICountryService countrysService, IPeopleService peopleService)
         {
             _countrysService = countrysService;
             _citysService = citysService;
+            _peopleService = peopleService;
         }
         // GET: Countries
         public ActionResult Index()
         {
             CountryViewModel countryList = _countrysService.All();
-            return View(countryList);
+            return View(countryList.countrieList);
         }
 
         // GET: Countries/Details/5
@@ -40,56 +42,92 @@ namespace MvcViewModels.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(Country);
-       
-          
+
+
         }
 
         // GET: Countries/Create
         public ActionResult Create()
         {
-            return View();
+           
+            CreateCountryViewModel createCountryViewModel = new CreateCountryViewModel();
+            createCountryViewModel.Cities = _citysService.All().cityList;
+            
+
+            return View(createCountryViewModel);
         }
 
         // POST: Countries/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Country country)
+        public ActionResult Create(CreateCountryViewModel createCountryViewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
+
+
+                _countrysService.Add(createCountryViewModel);
                 return RedirectToAction(nameof(Index));
+
+
             }
-            catch
-            {
-                return View();
-            }
+            return View(createCountryViewModel);
+
+
+
         }
+
 
         // GET: Countries/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Country country = _countrysService.FindBy(id);
+
+            if (country == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(country);
         }
 
         // POST: Countries/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Country country)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            CreateCountryViewModel createCountrie = new CreateCountryViewModel();
+            createCountrie.Name = country.Name;
+            createCountrie.Cities = country.Cities;
+          
+
+            //PeopleViewModel personList = _peopleService.All();
+            //Model.IPeopleRepo irepo = new IPeopleRepo();
+            Country editCountrie = _countrysService.Edit(country.Id, createCountrie);
+
+
+            return RedirectToAction(nameof(Index));
+
+
+
+
+
         }
+
+     
 
         // GET: Countries/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            if (_countrysService.Remove(id))
+            {
+                ViewBag.msg = "Person Was Removed.";
+            }
+            else
+            {
+                ViewBag.msg = "Unable to remove car with id: " + id;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Countries/Delete/5

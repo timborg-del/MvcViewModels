@@ -15,14 +15,15 @@ namespace MvcViewModels.Model
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public City City { get; set; }
-    
+        public Country Country { get; set; }
         public Person() { }
-        public Person(string name, City city, string phoneNumber)
+        public Person(string name, City city, Country country, string phoneNumber)
         {
             
             Name = name;
             PhoneNumber = phoneNumber;
             City = city;
+            Country = country;
         }
 
 

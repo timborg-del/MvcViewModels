@@ -17,7 +17,7 @@ namespace MvcViewModels.Model.Services
         }
         public City Add(CreateCityViewModel createCityViewModel)
         {
-            return _citysRepo.Create(createCityViewModel.Name);
+            return _citysRepo.Create(createCityViewModel.Name, createCityViewModel.Country );
             throw new NotImplementedException();
         }
 
@@ -32,7 +32,7 @@ namespace MvcViewModels.Model.Services
 
         public City Edit(int id, CreateCityViewModel city)
         {
-            City editCity = new City() { Id = id, Name = city.Name };
+            City editCity = new City() { Id = id, Name = city.Name, };
             return _citysRepo.Update(editCity);
             throw new NotImplementedException();
         }

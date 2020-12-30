@@ -28,8 +28,17 @@ namespace MvcViewModels.Model.Data
         public bool Delete(Country country)
         {
             _countrieDbContext.CountrieList.Remove(country);
-            _countrieDbContext.SaveChanges();
-            throw new NotImplementedException();
+           int rowsEffected = _countrieDbContext.SaveChanges();
+
+            if (rowsEffected > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
         public List<Country> Read()
@@ -48,6 +57,21 @@ namespace MvcViewModels.Model.Data
 
         public Country Update(Country country)
         {
+            Country updateCountrie = Read(country.Id);
+
+            if (updateCountrie == null)
+            {
+                return null;
+            }
+
+            updateCountrie.Id = country.Id;
+            updateCountrie.Name = country.Name;
+            updateCountrie.Cities = country.Cities;
+            
+
+            _countrieDbContext.SaveChanges();
+
+            return _countrieDbContext.CountrieList.SingleOrDefault(countrieList => countrieList.Id == country.Id);
             throw new NotImplementedException();
         }
     }

@@ -14,9 +14,11 @@ namespace MvcViewModels.Controllers
 
         private readonly IPeopleService _peopleService;
         private readonly ICitysService _citysService;
+        private readonly ICountryService _countryService;
 
-        public CitiesController(IPeopleService peopleService, ICitysService citysService)
+        public CitiesController(IPeopleService peopleService, ICitysService citysService, ICountryService countryService)
         {
+            _countryService = countryService;
             _peopleService = peopleService;
             _citysService = citysService;
         }
@@ -47,8 +49,9 @@ namespace MvcViewModels.Controllers
         public ActionResult Create()
         {
             CreateCityViewModel createCityViewModel = new CreateCityViewModel();
-            
-            return View();
+            createCityViewModel.Countries = _countryService.All().countrieList;
+
+            return View(createCityViewModel);
         }
 
         // POST: PeopleController/Create
@@ -58,13 +61,14 @@ namespace MvcViewModels.Controllers
         {
             if (ModelState.IsValid)
             {
-                _citysService.Add(createCityViewModel);
-                return RedirectToAction(nameof(Index));
+                createCityViewModel.Country = _countryService.FindBy(createCityViewModel.Country.Id);
+                if (createCityViewModel.Country != null)
+                {
+                    _citysService.Add(createCityViewModel);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            else
-            {
-                return View(createCityViewModel);
-            }
+            return View(createCityViewModel);
         }
 
         // GET: PeopleController/Edit/5
@@ -85,20 +89,33 @@ namespace MvcViewModels.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(City city)
         {
-            if (true)
-            {
+            CreateCityViewModel createCity = new CreateCityViewModel();
+            createCity.Name = city.Name;
+            createCity.Country = city.Countries;
+
+
+            City editCity = _citysService.Edit(city.Id, createCity);
+
                 return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return View(city);
-            }
+     
         }
 
         // GET: PeopleController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            
+                if (_citysService.Remove(id))
+                {
+                    ViewBag.msg = "Person Was Removed.";
+                }
+                else
+                {
+                    ViewBag.msg = "Unable to remove car with id: " + id;
+                }
+
+                return RedirectToAction(nameof(Index));
+            
+           
         }
 
         // POST: PeopleController/Delete/5

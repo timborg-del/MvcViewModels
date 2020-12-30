@@ -12,14 +12,15 @@ namespace MvcViewModels.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Country Country { get; set; }
+        public Country Countries { get; set; }
         public List<Person> Citiezens { get; set; }
 
         
         public City() { }
-        public City(string name)
+        public City(string name, Country country)
         {
-          
+
+            Countries = country;
             Name = name;
 
         }
