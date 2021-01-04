@@ -1,4 +1,5 @@
-﻿using MvcViewModels.Model.Data.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using MvcViewModels.Model.Data.Database;
 
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,10 @@ namespace MvcViewModels.Model.Data
         }
         public Person Read(int id)
         {
-            return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == id);
+            // This is EgerLoading Includep=>p.City converting ID of citys to obejects. 
+            return _peopleDbContext.PeopleList.Include(p=>p.City).SingleOrDefault(personList => personList.Id == id);
+            //This is laceyLoading.
+            //return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == id);
 
         }
 
@@ -64,8 +68,7 @@ namespace MvcViewModels.Model.Data
             {
                 return null;
             }
-
-            updatePerson.Id = person.Id;
+  
             updatePerson.Name = person.Name;
             updatePerson.City = person.City;
             updatePerson.PhoneNumber = person.PhoneNumber;

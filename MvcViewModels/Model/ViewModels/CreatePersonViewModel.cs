@@ -12,6 +12,7 @@ namespace MvcViewModels.Model
     public class CreatePersonViewModel
 
     { // Setting name dor user to understand better then just name to "Person name"
+        
         public List<City> Cities { get; set; }
         public List<Country> Countries { get; set; }
        

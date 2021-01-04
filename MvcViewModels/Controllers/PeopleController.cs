@@ -85,31 +85,38 @@ namespace MvcViewModels.Controllers
         public ActionResult Edit(int id)
         {
             Person person = _peopleService.FindBy(id);
-
-            if (person == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(person);
-        }
-
-        // POST: PeopleController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Person person)
-        {
-            //createPersonViewModel.Cities = _citysService.All().cityList;
-            //createPersonViewModel.Countries = _countryService.All().countrieList;
             CreatePersonViewModel createPerson = new CreatePersonViewModel();
             createPerson.Name = person.Name;
             createPerson.PhoneNumber = person.PhoneNumber;
             createPerson.City = person.City;
             createPerson.Country = person.Country;
+            createPerson.Cities = _citysService.All().cityList;
+            if (person == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
+            return View(createPerson);
+        }
+
+        // POST: PeopleController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreatePersonViewModel person, int id)
+        {
+            //createPersonViewModel.Cities = _citysService.All().cityList;
+            //createPersonViewModel.Countries = _countryService.All().countrieList;
+           
+            
             //PeopleViewModel personList = _peopleService.All();
             //Model.IPeopleRepo irepo = new IPeopleRepo();
-            Person editPerson = _peopleService.Edit(person.Id, createPerson);
+
+            // lode citie from databes
+            City city = _citysService.FindBy(person.City.Id);
+            person.City = city;
+
+            // updat person
+            Person editPerson = _peopleService.Edit(id, person);
 
 
             return RedirectToAction(nameof(Index));

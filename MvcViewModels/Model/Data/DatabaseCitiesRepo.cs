@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using MvcViewModels.Model.Data.Database;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,8 @@ namespace MvcViewModels.Model.Data
 
         public City Read(int id)
         {
-            return _citieDbContext.CityList.SingleOrDefault(CityList => CityList.Id == id);
+            return _citieDbContext.CityList.Include(c => c.Citiezens).SingleOrDefault(CityList => CityList.Id == id);
+           // return _citieDbContext.CityList.SingleOrDefault(CityList => CityList.Id == id);
 
             
         }
@@ -62,7 +64,6 @@ namespace MvcViewModels.Model.Data
                 return null;
             }
 
-            updateCity.Id = city.Id;
             updateCity.Name = city.Name;
             updateCity.Countries = city.Countries;
 

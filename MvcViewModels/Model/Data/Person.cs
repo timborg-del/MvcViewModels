@@ -8,7 +8,7 @@ namespace MvcViewModels.Model
 {
     public class Person
     {
-
+        
         //Person-Data
 
         public int Id { get; set; }

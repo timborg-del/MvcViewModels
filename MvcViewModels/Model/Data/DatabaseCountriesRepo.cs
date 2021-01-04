@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using MvcViewModels.Model.Data.Database;
 using System;
 using System.Collections.Generic;
@@ -51,7 +52,7 @@ namespace MvcViewModels.Model.Data
 
         public Country Read(int id)
         {
-            return _countrieDbContext.CountrieList.SingleOrDefault(countrieList => countrieList.Id == id);
+            return _countrieDbContext.CountrieList.Include(c => c.Cities).Include(c => c.Persons).SingleOrDefault(countrieList => countrieList.Id == id);
             throw new NotImplementedException();
         }
 
@@ -64,13 +65,13 @@ namespace MvcViewModels.Model.Data
                 return null;
             }
 
-            updateCountrie.Id = country.Id;
             updateCountrie.Name = country.Name;
             updateCountrie.Cities = country.Cities;
             
 
             _countrieDbContext.SaveChanges();
 
+            
             return _countrieDbContext.CountrieList.SingleOrDefault(countrieList => countrieList.Id == country.Id);
             throw new NotImplementedException();
         }
