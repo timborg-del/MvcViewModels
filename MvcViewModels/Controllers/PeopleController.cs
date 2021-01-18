@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Services;
+using MvcViewModels.Model.Data;
 
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,20 +18,22 @@ namespace MvcViewModels.Controllers
         private readonly IPeopleService _peopleService;
         private readonly ICitysService _citysService;
         private readonly ICountryService _countryService;
+        private readonly ILanguageService _languageService;
 
-        public PeopleController(IPeopleService peopleService, ICitysService citysService, ICountryService countryService)
+
+        public PeopleController(IPeopleService peopleService, ICitysService citysService, ICountryService countryService, ILanguageService languageService)
         {
             _peopleService = peopleService;
             _citysService = citysService;
             _countryService = countryService;
+            _languageService = languageService;
         }
-
-
 
         // GET: PeopleController
         public ActionResult Index()
         {
-
+            LanguageViewModel languageList = _languageService.All();
+           
             PeopleViewModel personList = _peopleService.All();
             return View(personList.personList);
         }
@@ -40,7 +44,7 @@ namespace MvcViewModels.Controllers
             Person person = _peopleService.FindBy(id);
             City city = _citysService.FindBy(id);
             Country country = _countryService.FindBy(id);
-
+            Language language = _languageService.FindBy(id);
             if (person == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -54,6 +58,7 @@ namespace MvcViewModels.Controllers
             CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel();
             createPersonViewModel.Cities = _citysService.All().cityList;
             createPersonViewModel.Countries = _countryService.All().countrieList;
+            createPersonViewModel.AllStoredLanguage = _languageService.All().LanguagesList;
             // createCountryViewModel.Cities = _citysService.All().cityList;
             return View(createPersonViewModel);
         }
@@ -63,11 +68,13 @@ namespace MvcViewModels.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreatePersonViewModel createPersonViewModel)
         {
+            PersonLanguage personLanguage = new PersonLanguage();
             //Person person = new Person();
             if (ModelState.IsValid)
             {
                 createPersonViewModel.Country = _countryService.FindBy(createPersonViewModel.Country.Id);
                 createPersonViewModel.City = _citysService.FindBy(createPersonViewModel.City.Id);
+                //createPersonViewModel.PersonLanguage = _languageService.FindBy(createPersonViewModel.PersonLanguage.; 
                 if (createPersonViewModel.City != null && createPersonViewModel.Country != null)
                 {
                     _peopleService.Add(createPersonViewModel);
@@ -90,7 +97,9 @@ namespace MvcViewModels.Controllers
             createPerson.PhoneNumber = person.PhoneNumber;
             createPerson.City = person.City;
             createPerson.Country = person.Country;
+            
             createPerson.Cities = _citysService.All().cityList;
+            createPerson.AllStoredLanguage = _languageService.All().LanguagesList;
             if (person == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -98,32 +107,30 @@ namespace MvcViewModels.Controllers
 
             return View(createPerson);
         }
-
-        // POST: PeopleController/Edit/5
+   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreatePersonViewModel person, int id)
         {
-            //createPersonViewModel.Cities = _citysService.All().cityList;
-            //createPersonViewModel.Countries = _countryService.All().countrieList;
-           
-            
-            //PeopleViewModel personList = _peopleService.All();
-            //Model.IPeopleRepo irepo = new IPeopleRepo();
+            if (person.ShouseLanguage != null)
 
-            // lode citie from databes
+
+            foreach (var language in person.ShouseLanguage)
+            {
+                Language personLanguage = _languageService.FindBy(language);
+            }
+
+            // Make it work Save to database Language
+
             City city = _citysService.FindBy(person.City.Id);
+             
             person.City = city;
+            
+            
 
-            // updat person
             Person editPerson = _peopleService.Edit(id, person);
 
-
             return RedirectToAction(nameof(Index));
-
-
-            //return RedirectToAction(nameof(Index));
-
         }
 
         // GET: PeopleController/Delete/5

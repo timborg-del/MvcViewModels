@@ -17,8 +17,6 @@ namespace MvcViewModels.Controllers
         private readonly ICitysService _citysService;
         private readonly IPeopleService _peopleService;
 
-
-
         public CountriesController(ICitysService citysService, ICountryService countrysService, IPeopleService peopleService)
         {
             _countrysService = countrysService;
@@ -31,7 +29,6 @@ namespace MvcViewModels.Controllers
             CountryViewModel countryList = _countrysService.All();
             return View(countryList.countrieList);
         }
-
         // GET: Countries/Details/5
         public ActionResult Details(int id)
         {
@@ -42,7 +39,6 @@ namespace MvcViewModels.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(Country);
-
 
         }
 
@@ -56,8 +52,7 @@ namespace MvcViewModels.Controllers
 
             return View(createCountryViewModel);
         }
-
-        // POST: Countries/Create
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateCountryViewModel createCountryViewModel)
@@ -65,20 +60,14 @@ namespace MvcViewModels.Controllers
             if (ModelState.IsValid)
             {
 
-
                 _countrysService.Add(createCountryViewModel);
                 return RedirectToAction(nameof(Index));
-
 
             }
             return View(createCountryViewModel);
 
-
-
         }
-
-
-        // GET: Countries/Edit/5
+       
         public ActionResult Edit(int id)
         {
             Country country = _countrysService.FindBy(id);
@@ -99,22 +88,11 @@ namespace MvcViewModels.Controllers
             createCountrie.Name = country.Name;
             createCountrie.Cities = country.Cities;
           
-
-            //PeopleViewModel personList = _peopleService.All();
-            //Model.IPeopleRepo irepo = new IPeopleRepo();
             Country editCountrie = _countrysService.Edit(country.Id, createCountrie);
-
 
             return RedirectToAction(nameof(Index));
 
-
-
-
-
-        }
-
-     
-
+        }    
         // GET: Countries/Delete/5
         public ActionResult Delete(int id)
         {
@@ -129,7 +107,6 @@ namespace MvcViewModels.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
         // POST: Countries/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]

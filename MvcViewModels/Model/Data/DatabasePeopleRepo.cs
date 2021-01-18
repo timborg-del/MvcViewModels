@@ -48,13 +48,15 @@ namespace MvcViewModels.Model.Data
 
         public List<Person> Read()
         {
-            return _peopleDbContext.PeopleList.ToList();
+            //List<Person> peoplelist = _peopleDbContext.PeopleList.ToList();
+            return _peopleDbContext.PeopleList.Include(p=>p.Languages).ThenInclude(pl=>pl.Language).ToList();
+
 
         }
         public Person Read(int id)
         {
             // This is EgerLoading Includep=>p.City converting ID of citys to obejects. 
-            return _peopleDbContext.PeopleList.Include(p=>p.City).SingleOrDefault(personList => personList.Id == id);
+            return _peopleDbContext.PeopleList.Include(p=>p.City).Include(l=>l.Languages).ThenInclude(l=>l.Language).SingleOrDefault(personList => personList.Id == id);
             //This is laceyLoading.
             //return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == id);
 
@@ -72,10 +74,12 @@ namespace MvcViewModels.Model.Data
             updatePerson.Name = person.Name;
             updatePerson.City = person.City;
             updatePerson.PhoneNumber = person.PhoneNumber;
-            
+            updatePerson.Languages = person.Languages;
+            updatePerson.Country = person.Country;
+            _peopleDbContext.Update(updatePerson);
             _peopleDbContext.SaveChanges();
 
-            return _peopleDbContext.PeopleList.SingleOrDefault(personList => personList.Id == person.Id);
+            return _peopleDbContext.PeopleList.Include(p => p.City).Include(l=>l.Languages).ThenInclude(l=>l.Language).SingleOrDefault(personList => personList.Id == person.Id);
 
         }
     }

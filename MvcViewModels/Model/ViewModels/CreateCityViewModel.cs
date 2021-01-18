@@ -14,8 +14,8 @@ namespace MvcViewModels.Model
         [Display(Name = "City Name")]
         public string Name { get; set; }
 
-        [Display(Name = "Countries")]
-        [Required]
+
         public Country Country { get; set; }
+
     }
 }

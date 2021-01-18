@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcViewModels.Model.Data.Database;
 
 namespace MvcViewModels.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    partial class PeopleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210111182243_AddedLanguage")]
+    partial class AddedLanguage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,30 +63,17 @@ namespace MvcViewModels.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LanguageId");
+
                     b.ToTable("LanguagesList");
-                });
-
-            modelBuilder.Entity("MvcViewModels.Model.Data.PersonLanguage", b =>
-                {
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LanguageID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("PersonId", "LanguageID");
-
-                    b.HasIndex("LanguageID");
-
-                    b.ToTable("PersonLanguages");
                 });
 
             modelBuilder.Entity("MvcViewModels.Model.Person", b =>
@@ -99,9 +88,6 @@ namespace MvcViewModels.Migrations
 
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
-
-                    b.Property<string>("LanguageName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -125,19 +111,11 @@ namespace MvcViewModels.Migrations
                         .HasForeignKey("CountriesId");
                 });
 
-            modelBuilder.Entity("MvcViewModels.Model.Data.PersonLanguage", b =>
+            modelBuilder.Entity("MvcViewModels.Model.Data.Language", b =>
                 {
-                    b.HasOne("MvcViewModels.Model.Data.Language", "Language")
-                        .WithMany("Persons")
-                        .HasForeignKey("LanguageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MvcViewModels.Model.Person", "Person")
+                    b.HasOne("MvcViewModels.Model.Data.Language", null)
                         .WithMany("Languages")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageId");
                 });
 
             modelBuilder.Entity("MvcViewModels.Model.Person", b =>

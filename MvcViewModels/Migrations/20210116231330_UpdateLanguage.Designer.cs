@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcViewModels.Model.Data.Database;
 
 namespace MvcViewModels.Migrations
 {
     [DbContext(typeof(RegistryDbContext))]
-    partial class PeopleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210116231330_UpdateLanguage")]
+    partial class UpdateLanguage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,6 +102,9 @@ namespace MvcViewModels.Migrations
                     b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LanguageName")
                         .HasColumnType("nvarchar(max)");
 
@@ -114,6 +119,8 @@ namespace MvcViewModels.Migrations
                     b.HasIndex("CityId");
 
                     b.HasIndex("CountryId");
+
+                    b.HasIndex("LanguageId");
 
                     b.ToTable("PeopleList");
                 });
@@ -149,6 +156,10 @@ namespace MvcViewModels.Migrations
                     b.HasOne("MvcViewModels.Model.Country", "Country")
                         .WithMany("Persons")
                         .HasForeignKey("CountryId");
+
+                    b.HasOne("MvcViewModels.Model.Data.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId");
                 });
 #pragma warning restore 612, 618
         }

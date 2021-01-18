@@ -39,6 +39,9 @@ namespace MvcViewModels
             services.AddScoped<ICitysService, CitysService>();
             services.AddScoped<ICountrysRepo, DatabaseCountrysRepo>();
             services.AddScoped<ICountryService, CountrysService>();
+            services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<ILanguageRepo, DatabaseLanguage>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
