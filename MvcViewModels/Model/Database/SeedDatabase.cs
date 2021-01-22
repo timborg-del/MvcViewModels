@@ -25,7 +25,7 @@ namespace MvcViewModels.Model.Database
                     if (context.Roles.Any() == false)
                     {
                         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
+                        roleManager.CreateAsync(new IdentityRole("SuperAdmin")).Wait();
                         roleManager.CreateAsync(new IdentityRole("Admin")).Wait();
                         roleManager.CreateAsync(new IdentityRole("Member")).Wait();
 
@@ -37,7 +37,7 @@ namespace MvcViewModels.Model.Database
 
                         superAdmin = userManager.FindByNameAsync("SuperAdmin").Result;
 
-                        userManager.AddToRoleAsync(superAdmin, "Admin").Wait();
+                        userManager.AddToRoleAsync(superAdmin, "SuperAdmin").Wait();
 
                     }
                 }

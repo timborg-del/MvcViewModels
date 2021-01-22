@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MvcViewModels.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -48,6 +48,7 @@ namespace MvcViewModels.Controllers
         {
             return View(_userManager.Users.ToList());
         }
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> AddAdmin(string id)
         {
             AppUser appUser = await _userManager.FindByIdAsync(id);
@@ -59,6 +60,7 @@ namespace MvcViewModels.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RemoveAdmin(string id)
         {
             AppUser appUser = await _userManager.FindByIdAsync(id);

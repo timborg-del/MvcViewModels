@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MvcViewModels.Controllers
 {
-    [Authorize (Roles = "Member,Admin")]
+    [Authorize (Roles = "Member,Admin,SuperAdmin")]
     public class PeopleController : Controller
     {
 

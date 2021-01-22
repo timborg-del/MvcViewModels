@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Services;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MvcViewModels.Controllers
 {
+    [Authorize]
     public class CitiesController : Controller
     {
 
