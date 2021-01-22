@@ -38,11 +38,11 @@ namespace MvcViewModels.Controllers
         {
             City city = _citysService.FindBy(id);
 
-            if (city == null)
+            if (city != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(city);
             }
-            return View(city);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PeopleController/Create
@@ -76,12 +76,12 @@ namespace MvcViewModels.Controllers
         {
             City city = _citysService.FindBy(id);
 
-            if (city == null)
+            if (city != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(city);
             }
 
-            return View(city);
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: PeopleController/Edit/5
@@ -96,26 +96,26 @@ namespace MvcViewModels.Controllers
 
             City editCity = _citysService.Edit(city.Id, createCity);
 
-                return RedirectToAction(nameof(Index));
-     
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: PeopleController/Delete/5
         public ActionResult Delete(int id)
         {
-            
-                if (_citysService.Remove(id))
-                {
-                    ViewBag.msg = "Person Was Removed.";
-                }
-                else
-                {
-                    ViewBag.msg = "Unable to remove car with id: " + id;
-                }
 
-                return RedirectToAction(nameof(Index));
-            
-           
+            if (_citysService.Remove(id))
+            {
+                ViewBag.msg = "Person Was Removed.";
+            }
+            else
+            {
+                ViewBag.msg = "Unable to remove car with id: " + id;
+            }
+
+            return RedirectToAction(nameof(Index));
+
+
         }
 
         // POST: PeopleController/Delete/5

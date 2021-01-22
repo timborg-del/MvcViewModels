@@ -3,15 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Services;
 using MvcViewModels.Model.Data;
-
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcViewModels.Controllers
 {
+    [Authorize (Roles = "Member,Admin")]
     public class PeopleController : Controller
     {
 
@@ -33,7 +34,7 @@ namespace MvcViewModels.Controllers
         public ActionResult Index()
         {
             LanguageViewModel languageList = _languageService.All();
-           
+
             PeopleViewModel personList = _peopleService.All();
             return View(personList.personList);
         }
@@ -42,14 +43,12 @@ namespace MvcViewModels.Controllers
         public ActionResult Details(int id)
         {
             Person person = _peopleService.FindBy(id);
-            City city = _citysService.FindBy(id);
-            Country country = _countryService.FindBy(id);
-            Language language = _languageService.FindBy(id);
-            if (person == null)
+
+            if (person != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(person);
             }
-            return View(person);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: PeopleController/Create
@@ -97,7 +96,7 @@ namespace MvcViewModels.Controllers
             createPerson.PhoneNumber = person.PhoneNumber;
             createPerson.City = person.City;
             createPerson.Country = person.Country;
-            
+
             createPerson.Cities = _citysService.All().cityList;
             createPerson.AllStoredLanguage = _languageService.All().LanguagesList;
             if (person == null)
@@ -107,7 +106,7 @@ namespace MvcViewModels.Controllers
 
             return View(createPerson);
         }
-   
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreatePersonViewModel person, int id)
@@ -115,25 +114,25 @@ namespace MvcViewModels.Controllers
             if (person.ShouseLanguage != null)
 
 
-            foreach (var language in person.ShouseLanguage)
-            {
-                Language personLanguage = _languageService.FindBy(language);
-            }
+                foreach (var language in person.ShouseLanguage)
+                {
+                    Language personLanguage = _languageService.FindBy(language);
+                }
 
             // Make it work Save to database Language
 
             City city = _citysService.FindBy(person.City.Id);
-             
+
             person.City = city;
-            
-            
 
             Person editPerson = _peopleService.Edit(id, person);
 
             return RedirectToAction(nameof(Index));
         }
 
+        //Set Onely Admin
         // GET: PeopleController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             if (_peopleService.Remove(id))
@@ -149,6 +148,7 @@ namespace MvcViewModels.Controllers
         }
 
         // POST: PeopleController/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

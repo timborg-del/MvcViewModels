@@ -6,21 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcViewModels.Model.Data;
-using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Database;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcViewModels.Controllers
 {
+    [Authorize]
     public class LanguagesController : Controller
     {
-        private readonly RegistryDbContext _context;
+
         private readonly IPeopleService _peopleService;
         private readonly ILanguageService _languageService;
         public LanguagesController(IPeopleService peopleService, ILanguageService languageService)
         {
-            _languageService = languageService; 
+            _languageService = languageService;
             _peopleService = peopleService;
         }
 
@@ -36,11 +38,11 @@ namespace MvcViewModels.Controllers
         {
             Language language = _languageService.FindBy(id);
 
-            if (language == null)
+            if (language != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(language);
             }
-            return View(language);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Languages/Create
@@ -60,7 +62,6 @@ namespace MvcViewModels.Controllers
         {
             if (ModelState.IsValid)
             {
-               
                 _languageService.Add(createLanguageViewModel);
                 return RedirectToAction(nameof(Index));
             }
@@ -72,12 +73,12 @@ namespace MvcViewModels.Controllers
         {
             Language language = _languageService.FindBy(id);
 
-            if (language == null)
+            if (language != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(language);
             }
+            return RedirectToAction(nameof(Index));
 
-            return View(language);
         }
 
         // POST: Languages/Edit/5
@@ -112,7 +113,6 @@ namespace MvcViewModels.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-
 
         }
 

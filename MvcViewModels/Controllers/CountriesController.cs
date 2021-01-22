@@ -34,25 +34,25 @@ namespace MvcViewModels.Controllers
         {
             Country Country = _countrysService.FindBy(id);
 
-            if (Country == null)
+            if (Country != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(Country);
             }
-            return View(Country);
+            return RedirectToAction(nameof(Index));
 
         }
 
         // GET: Countries/Create
         public ActionResult Create()
         {
-           
+
             CreateCountryViewModel createCountryViewModel = new CreateCountryViewModel();
             createCountryViewModel.Cities = _citysService.All().cityList;
-            
+
 
             return View(createCountryViewModel);
         }
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateCountryViewModel createCountryViewModel)
@@ -67,16 +67,16 @@ namespace MvcViewModels.Controllers
             return View(createCountryViewModel);
 
         }
-       
+
         public ActionResult Edit(int id)
         {
             Country country = _countrysService.FindBy(id);
 
-            if (country == null)
+            if (country != null)
             {
-                return RedirectToAction(nameof(Index));
+                return View(country);
             }
-            return View(country);
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Countries/Edit/5
@@ -87,12 +87,12 @@ namespace MvcViewModels.Controllers
             CreateCountryViewModel createCountrie = new CreateCountryViewModel();
             createCountrie.Name = country.Name;
             createCountrie.Cities = country.Cities;
-          
+
             Country editCountrie = _countrysService.Edit(country.Id, createCountrie);
 
             return RedirectToAction(nameof(Index));
 
-        }    
+        }
         // GET: Countries/Delete/5
         public ActionResult Delete(int id)
         {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MvcViewModels.Model.Data.Database;
-
+using MvcViewModels.Model.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace MvcViewModels.Model.Data
 {
     public class DatabasePeopleRepo : IPeopleRepo
     {
-        private readonly RegistryDbContext _peopleDbContext;
-        public DatabasePeopleRepo(RegistryDbContext peopleDbContext)
+        private readonly IdentityPersonDbContext _peopleDbContext;
+        public DatabasePeopleRepo(IdentityPersonDbContext peopleDbContext)
         {
             _peopleDbContext = peopleDbContext;
         }
@@ -49,7 +48,7 @@ namespace MvcViewModels.Model.Data
         public List<Person> Read()
         {
             //List<Person> peoplelist = _peopleDbContext.PeopleList.ToList();
-            return _peopleDbContext.PeopleList.Include(p=>p.Languages).ThenInclude(pl=>pl.Language).ToList();
+            return _peopleDbContext.PeopleList.Include(c=>c.Country).Include(p=>p.Languages).ThenInclude(pl=>pl.Language).ToList();
 
 
         }

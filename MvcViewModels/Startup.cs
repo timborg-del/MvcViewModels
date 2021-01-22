@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcViewModels.Model;
 using MvcViewModels.Model.Data;
-using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Database;
+using MvcViewModels.Model.Identity;
 using MvcViewModels.Model.Services;
 
 namespace MvcViewModels
@@ -28,7 +30,13 @@ namespace MvcViewModels
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<RegistryDbContext>(options =>
+            services.AddIdentity<AppUser, IdentityRole>()
+            .AddEntityFrameworkStores<IdentityPersonDbContext>()
+            .AddDefaultTokenProviders();
+
+         
+
+            services.AddDbContext<IdentityPersonDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
@@ -56,7 +64,8 @@ namespace MvcViewModels
             app.UseHttpsRedirection();
             app.UseRouting();
 
-
+            app.UseAuthentication(); //checks if loged in
+            app.UseAuthorization(); // Checks what userherarki
 
             app.UseEndpoints(endpoints =>
             {

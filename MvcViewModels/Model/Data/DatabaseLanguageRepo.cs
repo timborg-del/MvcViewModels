@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,8 @@ namespace MvcViewModels.Model.Data
 {
     public class DatabaseLanguage : ILanguageRepo
     {
-        private readonly RegistryDbContext _languaDbContext;
-        public DatabaseLanguage(RegistryDbContext languaDbContrext)
+        private readonly IdentityPersonDbContext _languaDbContext;
+        public DatabaseLanguage(IdentityPersonDbContext languaDbContrext)
         {
             _languaDbContext = languaDbContrext;
         }

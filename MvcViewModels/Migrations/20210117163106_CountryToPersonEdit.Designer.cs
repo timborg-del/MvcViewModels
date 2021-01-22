@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Database;
 
 namespace MvcViewModels.Migrations
 {
-    [DbContext(typeof(RegistryDbContext))]
+    [DbContext(typeof(IdentityPersonDbContext))]
     [Migration("20210117163106_CountryToPersonEdit")]
     partial class CountryToPersonEdit
     {

@@ -1,20 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using MvcViewModels.Model.Data;
+using MvcViewModels.Model.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MvcViewModels.Model.Data;
 
-
-namespace MvcViewModels.Model.Data.Database
+namespace MvcViewModels.Model.Database
 {
-    public class RegistryDbContext : DbContext
+    public class IdentityPersonDbContext : IdentityDbContext<AppUser>
     {
-        //ctor
-        public RegistryDbContext(DbContextOptions<RegistryDbContext> options) : base(options)
-        {
 
-        }
+        public IdentityPersonDbContext(DbContextOptions<IdentityPersonDbContext> options) : base(options) { }
 
         public DbSet<Person> PeopleList { get; set; }
 
@@ -27,6 +25,8 @@ namespace MvcViewModels.Model.Data.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)//tells EF how to work with the many-to-many
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<PersonLanguage>()
                 .HasKey(pl => new { pl.PersonId, pl.LanguageID });
 
@@ -44,3 +44,4 @@ namespace MvcViewModels.Model.Data.Database
         }
     }
 }
+

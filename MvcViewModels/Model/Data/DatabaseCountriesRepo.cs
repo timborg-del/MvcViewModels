@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using MvcViewModels.Model.Data.Database;
+using MvcViewModels.Model.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,8 @@ namespace MvcViewModels.Model.Data
 {
     public class DatabaseCountrysRepo : ICountrysRepo
     {
-        private readonly RegistryDbContext _countrieDbContext;
-        public DatabaseCountrysRepo(RegistryDbContext countrieDbContext)
+        private readonly IdentityPersonDbContext _countrieDbContext;
+        public DatabaseCountrysRepo(IdentityPersonDbContext countrieDbContext)
         {
             _countrieDbContext = countrieDbContext;
         }

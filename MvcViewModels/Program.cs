@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MvcViewModels.Model.Database;
 
 namespace MvcViewModels
 {
@@ -13,7 +14,9 @@ namespace MvcViewModels
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();// Create host app
+            host = SeedDatabase.CreateDatabaseIfNotExists(host); // Seed if needed
+            host.Run(); //Run
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
