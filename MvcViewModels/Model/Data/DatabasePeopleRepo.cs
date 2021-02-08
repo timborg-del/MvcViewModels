@@ -25,8 +25,6 @@ namespace MvcViewModels.Model.Data
 
         public bool Delete(Person person)
         {
-
-
             _peopleDbContext.PeopleList.Remove(person);
             int rowsEffected = _peopleDbContext.SaveChanges();
 
@@ -38,10 +36,7 @@ namespace MvcViewModels.Model.Data
             {
                 return false;
             }
-
             // throw new NotImplementedException();
-
-
         }
 
 

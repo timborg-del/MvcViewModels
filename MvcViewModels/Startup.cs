@@ -34,10 +34,10 @@ namespace MvcViewModels
             .AddEntityFrameworkStores<IdentityPersonDbContext>()
             .AddDefaultTokenProviders();
 
-         
+
 
             services.AddDbContext<IdentityPersonDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
             //services.AddScoped<IPeopleRepo, InMemoryPeopleRepo>();
@@ -50,19 +50,53 @@ namespace MvcViewModels
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<ILanguageRepo, DatabaseLanguage>();
 
-        }
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyAllowSpecificOrigins",
+                     builder =>
+                     {
+                         builder.WithOrigins("http://localhost:3000")//defualt uri for React (npm start)
+                                             .AllowAnyMethod()
+                                             .AllowAnyHeader();
+                     });
+            });
+
+            services.AddSwaggerGen();
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                
+
                 app.UseDeveloperExceptionPage();
+            }
+
+            else
+            {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseCors("MyAllowSpecificOrigins");
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "React API V1");
+            });
 
             app.UseAuthentication(); //checks if loged in
             app.UseAuthorization(); // Checks what userherarki
@@ -72,8 +106,9 @@ namespace MvcViewModels
                 endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=People}/{id?}");
-                
+
             });
         }
     }
 }
+
