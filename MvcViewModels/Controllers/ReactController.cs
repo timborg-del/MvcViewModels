@@ -16,7 +16,7 @@ namespace MvcViewModels.Controllers
     {
         private readonly IPeopleService _peopleService;
         private readonly ICitysService _cityService;
-        
+         
         // GET: api/<ReactController>
         public ReactController(IPeopleService peopleService, ICitysService citysService)
         {
@@ -62,15 +62,20 @@ namespace MvcViewModels.Controllers
 
             if (ModelState.IsValid)
             {
+             
                 createPersonViewModel.City = _cityService.FindBy(createPersonViewModel.City.Id);
                 createPersonViewModel.Countries = null;
                 createPersonViewModel.Country = null;
 
                 Person person = _peopleService.Add(createPersonViewModel);
-                person.City.Citiezens = null;
+                if (person.City != null && person.Languages == null)
+                {
+                 person.City.Citiezens = null;
+                 person.City.Countries = null;
+                 person.Languages = null;
+
+                }
                 person.Country = null;
-                person.City.Countries = null;
-                person.Languages = null;
                 return Created("URI to car omitted", person);
             }
 
